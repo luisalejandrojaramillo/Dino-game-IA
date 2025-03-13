@@ -1,6 +1,9 @@
 [NEAT]
+# Select the best score
 fitness_criterion     = max
+# If reach this limit, stop the evolution
 fitness_threshold     = 10000
+# population
 pop_size              = 15
 reset_on_extinction   = False
 
@@ -45,7 +48,9 @@ node_delete_prob        = 0.2
 
 # network parameters
 num_hidden              = 0
+# (X coord and distance to the cactus)
 num_inputs              = 2
+# if jumps or not
 num_outputs             = 1
 
 # node response options
