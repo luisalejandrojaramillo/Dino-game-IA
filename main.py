@@ -190,14 +190,20 @@ def eval_genomes(genomes, config):
             obstacle.update()
             for i, dinosaur in enumerate(dinosaurs):
                 if dinosaur.rect.colliderect(obstacle.rect):
-                    ge[i].fitness -= 1
+                    ge[i].fitness -= 1  # Penalización por colisión
                     remove(i)
+                else:
+                    ge[i].fitness += 0.1  # Recompensa por esquivar obstáculos
 
         for i, dinosaur in enumerate(dinosaurs):
-            output = nets[i].activate((dinosaur.rect.y,
-                                       distance((dinosaur.rect.x, dinosaur.rect.y),
-                                                obstacle.rect.midtop)))
-            if output[0] > 0.5 and dinosaur.rect.y == dinosaur.Y_POS:
+            output = nets[i].activate((
+                dinosaur.rect.y,
+                (obstacle.rect.x - dinosaur.rect.x) / game_speed,
+                game_speed,
+                obstacle.rect.y
+            ))
+            if (output[0] > 0.5 and dinosaur.rect.y == dinosaur.Y_POS
+                    and distance((dinosaur.rect.x, dinosaur.rect.y), obstacle.rect.midtop) < 300):
                 dinosaur.dino_jump = True
                 dinosaur.dino_run = False
 
